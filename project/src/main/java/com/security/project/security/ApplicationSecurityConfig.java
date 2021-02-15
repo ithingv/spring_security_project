@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import static com.security.project.security.ApplicationUserRole.*;
 import static com.security.project.security.ApplicationUserPermission.*;
@@ -27,7 +28,9 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
+                .csrf()
+//                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .and()
                 .authorizeRequests()
                 .antMatchers("/", "index","/css/*","/js/*")
                 .permitAll()
@@ -47,21 +50,21 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         UserDetails kimUser = User.builder()
                 .username("kim")
                 .password(passwordEncoder.encode("password"))
-                .roles(STUDENT.name()) // ROLE_STUDNET
+//                .roles(STUDENT.name()) // ROLE_STUDNET
                 .authorities(STUDENT.getGrantedAuthorities())
                 .build();
 
         UserDetails leeUser = User.builder()
                 .username("lee")
                 .password(passwordEncoder.encode("password"))
-                .roles(ADMIN.name()) // ROLE_ADMIN
+//                .roles(ADMIN.name()) // ROLE_ADMIN
                 .authorities(ADMIN.getGrantedAuthorities())
                 .build();
 
         UserDetails parkUser = User.builder()
                 .username("park")
                 .password(passwordEncoder.encode("password"))
-                .roles(ADMINTRAINEE.name()) // ROLE_ADMINTRAINEE
+//                .roles(ADMINTRAINEE.name()) // ROLE_ADMINTRAINEE
                 .authorities(ADMINTRAINEE.getGrantedAuthorities())
                 .build();
 
